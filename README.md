@@ -106,7 +106,9 @@ host> docker cp wp34s-builder-src:/wp34s/trunk/realbuild/calc.bin .
 
 如果你不想下载这么大的 `Docker` 镜像文件，也可以通过这里提供的 `Dockerfile` 去自己生成`Docker` 镜像（国内用户大概率会遇到 `winehq` 和 `raw.github` 无法访问的问题，或者访问速度很慢）。
 
-自己创建 `Docker` 镜像的操作可以参考来自[SammysHP](https://github.com/SammysHP/wp34s-builder)的英文说明。
+[本文链接](https://github.com/FreeBlues/wp34s-builder)
+
+自己创建 `Docker` 镜像的操作可以参考来自[SammysHP](https://github.com/SammysHP/wp34s-builder)的英文说明:
 
 # WP 34S build environment with Docker
 
