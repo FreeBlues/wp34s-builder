@@ -1,3 +1,69 @@
+# WP 34S 构建环境 Docker 镜像
+
+这个镜像允许你以一种非常轻松的方式来编译构建 WP 34S的固件，只需要下载这个 `Docker` 镜像没然后用你的 `Docker` 加载它，
+
+## 技能需求
+
+需要你懂一点 `Docker` 的常用命令和基本操作，大致理解宿主机，镜像，容器这三个基本概念，然后按图索骥就可以了。
+
+## 版本需求
+
+说明：`Docker` 的版本要保证不低于下面所列，暂时只在 `macOS` 上运行成功，还没有在 `Windows` 和 `Linux` 上试过，理论上应该也可以。
+
+###  Docker 版本需求
+
+-  Docker Desktop：4.28.0(139021)
+-  Engine：25.0.3
+
+### 操作系统
+
+-  macOS Ventura 13.4.1(c)
+-  Windows 未测试
+-  Linux 未测试
+
+## 使用方法
+
+首先要安装好 `Docker Desktop`
+
+>注意：不要通过命令行安装，命令行安装的 `Docker` 版本偏低!
+
+接着在你的用户目录下建立一个新目录，用来放置最新版本的 `wp34s` 源代码，命令如下：
+
+```
+cd ~/
+mkdir WP34SSRC
+```
+
+>说明一下，这个目录是用来让你的宿主机跟容器交换文件用的，你可以把最新版的 `wp34s` 的源码放在这里，然后在容器启动后，在容器里访问这个目录，对于容器来说，它被设置为只读。
+>这里属于可选项，因为我已经在 `Docker` 的镜像文件中内置了一套 `V3.3 r924` 的 `WP34S` 源码了
+
+然后下载 `Docker` 镜像文件 [wp34s-builder-src.tar](https://www.123pan.com/s/HQ3cVv-o1rch.html)保存到本地目录，大约 `2.38G`，对于 `github` 提供的免费空间来说太大了，所以放在网盘上。
+
+执行：
+
+```
+docker load wp34s-builder-src.tar
+```
+
+成功后继续执行：
+
+```
+docker run -it --rm --name wp34s-builder-src -v ~/WP34SSRC:/wp-src:ro wp34s-builder-src
+```
+
+执行成功后会进入容器中，因为这个镜像已经内置了一个 `r924` 的源码，所以进入源码目录后直接就可以编译了，命令如下：
+
+```
+container> cd wp/trunk
+container> make REALBUILD=1
+```
+
+然后你就会看到编译过程，最后会成功构建 `r924` 的 `firmware`
+
+如果你不想下载这么大的 `Docker` 镜像文件，也可以通过这里提供的 `Dockerfile` 去自己生成`Docker` 镜像（国内用户大概率会遇到 `winehq` 和 `raw.github` 无法访问的问题，或者访问速度很慢）。
+
+自己创建 `Docker` 镜像的操作可以参考来自[SammysHP](https://github.com/SammysHP/wp34s-builder)的英文说明。
+
 # WP 34S build environment with Docker
 
 This image allows you to easily build WP 34S realcalc firmware images. It provides all tools necessary to compile the firmware as recommended in the official documentation.
