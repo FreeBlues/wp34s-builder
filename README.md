@@ -30,26 +30,28 @@
 接着在你的用户目录下建立一个新目录，用来放置最新版本的 `wp34s` 源代码，命令如下：
 
 ```
-cd ~/
-mkdir WP34SSRC
+host> cd ~/
+host> mkdir WP34SSRC
 ```
 
 >说明一下，这个目录是用来让你的宿主机跟容器交换文件用的，你可以把最新版的 `wp34s` 的源码放在这里，然后在容器启动后，在容器里访问这个目录，对于容器来说，它被设置为只读。
 
 >这里属于可选项，因为我已经在 `Docker` 的镜像文件中内置了一套 `V3.3 r924` 的 `WP34S` 源码了
 
+>host>表示你的宿主机提示符
+
 然后下载 `Docker` 镜像文件 [wp34s-builder-src.tar](https://www.123pan.com/s/HQ3cVv-o1rch.html)保存到本地目录，大约 `2.38G`，对于 `github` 提供的免费空间来说太大了，所以放在网盘上。
 
 执行：
 
 ```
-docker load wp34s-builder-src.tar
+host> docker load wp34s-builder-src.tar
 ```
 
 成功后继续执行：
 
 ```
-docker run -it --rm --name wp34s-builder-src -v ~/WP34SSRC:/wp-src:ro wp34s-builder-src
+host> docker run -it --rm --name wp34s-builder-src -v ~/WP34SSRC:/wp-src:ro wp34s-builder-src
 ```
 
 执行成功后会进入容器中，因为这个镜像已经内置了一个 `r924` 的源码，目录名为 `wp34s` 所以进入源码目录后直接就可以编译了，命令如下：
@@ -94,6 +96,12 @@ Multi word commands:  11
 .volatileram    0x002001b0      0x210
 .persistentram  0x00300000      0x800
 root@f993ed11dbba:/wp34s/trunk# 
+```
+
+编译生成的固件 `calc.bin` 放在 `/wp34s/trunk/realbuild`目录下，需要从容器中拷贝到宿主机，才能使用，这个操作要在宿主机上执行，命令如下：
+
+```
+host> docker cp wp34s-builder-src:/wp34s/trunk/realbuild/calc.bin .
 ```
 
 如果你不想下载这么大的 `Docker` 镜像文件，也可以通过这里提供的 `Dockerfile` 去自己生成`Docker` 镜像（国内用户大概率会遇到 `winehq` 和 `raw.github` 无法访问的问题，或者访问速度很慢）。
